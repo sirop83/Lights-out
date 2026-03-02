@@ -1339,10 +1339,10 @@ void UpdateGame(void)
     // bouche_has_soupe = 1;
     // hasTelecommande = 1;
     // cpt_piece_tableau = 4;
-    // hasDoudou = 1;
+    hasDoudou = 1;
     // statue_has_water=1;
     // statue_has_drawing=1;
-    // currentLevel = 11;
+    currentLevel = 11;
 
     if (chaudron_anim == 1)
     {
@@ -2896,8 +2896,8 @@ void UpdateGame(void)
         {
             if (mamanX != -1 && mamanY != -1)
             {
-                if (sonOpenDoor) //son mathys en attente
-                    Mix_PlayChannel(-1, sonOpenDoor, 0);
+                // if (sonOpenDoor) //son mathys en attente
+                //     Mix_PlayChannel(-1, sonOpenDoor, 0);
 
                 maps[11][mamanY ][mamanX]    = 440;
                 maps[11][mamanY -1][mamanX]  = 441;
@@ -3144,7 +3144,7 @@ static inline int IsLampe(int index) {
         case 21: case 75: case 76: case 85: case 86: 
         case 148: case 186: case 317: case 319: case 321: 
         case 323: case 340: case 341: case 342: case 343:
-        case 398: case 439 :case 440: case 441: 
+        case 398: case 439 :case 440: case 441: case 332 : case 333:
             return 1;
         default: 
             return 0;
