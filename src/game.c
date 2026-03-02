@@ -1335,11 +1335,13 @@ void ManageMusic()
 void UpdateGame(void)
 {
     const Uint8 *state = SDL_GetKeyboardState(NULL);
-    bouche_has_pain = 1;
-    bouche_has_soupe = 1;
-    hasTelecommande = 1;
-    cpt_piece_tableau = 4;
-    hasDoudou = 1;
+    // bouche_has_pain = 1;
+    // bouche_has_soupe = 1;
+    // hasTelecommande = 1;
+    // cpt_piece_tableau = 4;
+    // hasDoudou = 1;
+    // statue_has_water=1;
+    // statue_has_drawing=1;
     // currentLevel = 11;
 
     if (chaudron_anim == 1)
@@ -2805,7 +2807,7 @@ void UpdateGame(void)
             }
         }
     }
-    else if(!teleOn && currentLevel == 1){
+    else if(!teleOn && currentLevel == 11){
         maps[11][4][14] = 302; maps[11][4][15] = 303;
         maps[11][3][14] = 304; maps[11][3][15] = 305;
     }
