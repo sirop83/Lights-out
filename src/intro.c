@@ -7,7 +7,15 @@ extern int dialogueStep;
 
 int isColorMode = 0; 
 static Uint32 debutIntro = 0;
-static SDL_Texture* renderTarget = NULL; 
+static SDL_Texture* renderTarget = NULL;
+
+void InitIntro(void) {
+    // Initialize intro state
+    debutIntro = 0;
+    dialogueStep = 0;
+    isColorMode = 0;
+    renderTarget = NULL;
+}
 
 void StartIntro(SDL_Renderer *renderer) {
     debutIntro = SDL_GetTicks();

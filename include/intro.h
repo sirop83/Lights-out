@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+void InitIntro(void);
 void SkipIntro(void);
 void StartIntro(SDL_Renderer *renderer);
 int UpdateIntroTimer(void);

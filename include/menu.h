@@ -9,4 +9,7 @@ void InitMenu(SDL_Renderer *renderer);
 int UpdateMenu(SDL_Event *event);
 void DrawMenu(SDL_Renderer *renderer, TTF_Font *fontTitre, TTF_Font *fontOptions);
 
+void dessinerTexteMenu(SDL_Renderer *renderer, TTF_Font *font, const char *texte, int y, int selected);
+void dessinerCroix(SDL_Renderer *renderer, int x, int y);
+
 #endif

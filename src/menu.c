@@ -18,7 +18,7 @@ static const char *options[] = {"JOUER", "OPTIONS", "QUITTER"};
 static int nbOptions = 3;
 
 // Fonction interne pour dessiner le texte du menu
-static void dessinerTexteMenu(SDL_Renderer *renderer, TTF_Font *font, const char *texte, int y, int selected) {
+void dessinerTexteMenu(SDL_Renderer *renderer, TTF_Font *font, const char *texte, int y, int selected) {
     SDL_Color colorTexte = selected ? BLANC : NOIR;
     SDL_Surface *surface = TTF_RenderText_Solid(font, texte, colorTexte);
     if (!surface) return;
@@ -34,14 +34,11 @@ static void dessinerTexteMenu(SDL_Renderer *renderer, TTF_Font *font, const char
     SDL_RenderCopy(renderer, texture, NULL, &rect);
     SDL_FreeSurface(surface);
     SDL_DestroyTexture(texture);
-
-    
 }
 
 // Fonction pour la croix de selection
-static void dessinerCroix(SDL_Renderer *renderer, int y) {
+void dessinerCroix(SDL_Renderer *renderer, int x, int y) {
     SDL_SetRenderDrawColor(renderer, NOIR.r, NOIR.g, NOIR.b, 255);
-    int x = (LOGICAL_WIDTH / 2) - 45;
     SDL_Rect p1 = {x+2, y, 2, 6};   SDL_RenderFillRect(renderer, &p1);
     SDL_Rect p2 = {x, y+2, 2, 2};   SDL_RenderFillRect(renderer, &p2);
     SDL_Rect p3 = {x+4, y+2, 2, 2}; SDL_RenderFillRect(renderer, &p3);
@@ -72,7 +69,8 @@ int UpdateMenu(SDL_Event *event) {
                 break;
             case SDLK_RETURN:
                 if (selection == 0) return 1; // Lancer JEU
-                if (selection == 2) return 2; // QUITTER
+                if (selection == 1) return 2;
+                if (selection == 2) return 3; // QUITTER
                 break;
         }
     }
@@ -80,7 +78,6 @@ int UpdateMenu(SDL_Event *event) {
 }
 
 void DrawMenu(SDL_Renderer *renderer, TTF_Font *fontTitre, TTF_Font *fontOptions) {
-    // 1. Fond NOIR (Visuellement Blanc)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
@@ -88,16 +85,18 @@ void DrawMenu(SDL_Renderer *renderer, TTF_Font *fontTitre, TTF_Font *fontOptions
         SDL_RenderCopy(renderer, bgMenuTexture, NULL, NULL);
     }
 
-
-    // 3. Options
     int startY = 100;
     for (int i = 0; i < nbOptions; i++) {
         int itemY = startY + (i * 25);
         dessinerTexteMenu(renderer, fontOptions, options[i], itemY, (i == selection));
         
         if (i == selection) {
-            dessinerCroix(renderer, itemY + 2);
+            // 3. ON CALCULE LA POSITION X DE LA CROIX DYNAMIQUEMENT
+            int textW, textH;
+            TTF_SizeText(fontOptions, options[i], &textW, &textH);
+            int croixX = (LOGICAL_WIDTH - textW) / 2 - 15; // 15 pixels à gauche du texte
+            
+            dessinerCroix(renderer, croixX, itemY + 2);
         }
     }
-
 }
