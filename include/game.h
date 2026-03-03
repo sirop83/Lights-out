@@ -11,7 +11,7 @@
 #define MAP_WIDTH 20        
 #define MAP_HEIGHT 15  
 #define NB_LEVELS 12 
-#define PLAYER_SPEED 2.0f // j'ai test pour les animation je trouve que 0.7 c'est une bonne vitesse A VOIR 
+#define PLAYER_SPEED 0.7f // j'ai test pour les animation je trouve que 0.7 c'est une bonne vitesse A VOIR 
 
 
 // #define FANTOME_SPEED 0.5f 

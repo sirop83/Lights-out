@@ -1339,7 +1339,7 @@ void UpdateGame(void)
     // bouche_has_soupe = 1;
     // hasTelecommande = 1;
     // cpt_piece_tableau = 4;
-    //hasDoudou = 1;
+    // hasDoudou = 1;
     // statue_has_water=1;
     // statue_has_drawing=1;
     //currentLevel = 11;
