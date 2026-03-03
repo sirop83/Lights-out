@@ -33,6 +33,8 @@ SDL_Renderer* renderer;
 TTF_Font* font;
 
 int fin_jeu = 0;
+int game_is_loading = 0;
+int save_type_to_load = 0;
 
 int main(int argc, char* argv[]) {
     (void)argc; (void)argv;
@@ -110,7 +112,13 @@ int main(int argc, char* argv[]) {
         // A. GESTION DES EVENEMENTS (Clavier / Souris)
         while (SDL_PollEvent(&event)) {
 
-            if (event.type == SDL_QUIT) running = 0;
+            if (event.type == SDL_QUIT) {
+                // auto save
+                if (etat == ETAT_JEU || etat == ETAT_JEU_REVEILLE || etat == ETAT_PAUSE) {
+                    SauvegarderPartie(1);
+                }
+                running = 0;
+            }
 
             if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F11) {
                 // On récupère l'état actuel
@@ -140,7 +148,16 @@ int main(int argc, char* argv[]) {
                     InitOptions();
                 }
                 if (action == 3) running = 0;
-                
+                if (action == 4) { // CHARGER MANUEL
+                    game_is_loading = 1;
+                    save_type_to_load = 0;
+                    etat = ETAT_CHARGEMENT; vraiPourcentage = 0;
+                }
+                if (action == 5) { // CHARGER AUTO
+                    game_is_loading = 1;
+                    save_type_to_load = 1;
+                    etat = ETAT_CHARGEMENT; vraiPourcentage = 0;
+                }
             }
             else if (etat == ETAT_OPTIONS) {
                 int actionOptions = UpdateOptions(&event);
@@ -170,6 +187,7 @@ int main(int argc, char* argv[]) {
                     etat = etat_avant_pause; // Restaure ETAT_JEU ou ETAT_JEU_REVEILLE
                 }
                 else if (actionPause == 2) { // 2 = Menu Principal
+                    SauvegarderPartie(1);
                     etat = ETAT_MENU;
                     Mix_HaltMusic(); 
                     Mix_HaltChannel(-1);
@@ -181,10 +199,12 @@ int main(int argc, char* argv[]) {
                     etat = ETAT_OPTIONS;
                     InitOptions();
                 }
-                else if (actionPause == 4) { // 3 = Sauvegarder
-                    printf("Sauvegarde non implementee pour le moment.\n");
+                else if (actionPause == 4) {
+                    SauvegarderPartie(0);
+                    etat = etat_avant_pause;
                 }
                 else if (actionPause == 5) { // 4 = Quitter
+                    SauvegarderPartie(1);
                     running = 0; 
                 }
             }
@@ -219,10 +239,20 @@ int main(int argc, char* argv[]) {
         }
         else if (etat == ETAT_CHARGEMENT) {
             int fini = InitGameStepByStep(renderer, &vraiPourcentage);
-            
             if (fini == 1) {
-                etat = ETAT_INTRO;
-                StartIntro(renderer);
+            if (game_is_loading) {
+                    if (ChargerPartie(save_type_to_load)) {
+                        etat = ETAT_JEU; // Passe l'intro si on charge
+                    } else {
+                        printf("Aucune sauvegarde trouvee !\n");
+                        StartIntro(renderer); 
+                        etat = ETAT_INTRO;
+                    }
+                    game_is_loading = 0;
+                } else {
+                    etat = ETAT_INTRO;
+                    StartIntro(renderer);
+                }
             }
         }
         else if (etat == ETAT_JEU)

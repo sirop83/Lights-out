@@ -6,18 +6,20 @@
 #define LOGICAL_WIDTH 320
 #define LOGICAL_HEIGHT 240
 
-static SDL_Color NOIR = {255, 255, 255, 255}; // Visuellement Blanc (Fond)
-static SDL_Color BLANC = {0, 0, 0, 255};      // Visuellement Noir (Encre)
-
+static SDL_Color NOIR = {255, 255, 255, 255}; 
+static SDL_Color BLANC = {0, 0, 0, 255};      
 
 static SDL_Texture *bgMenuTexture = NULL;
 
-
+static int isLoadSubMenu = 0; 
 static int selection = 0;
-static const char *options[] = {"JOUER", "OPTIONS", "QUITTER"};
-static int nbOptions = 3;
 
-// Fonction interne pour dessiner le texte du menu
+static const char *optionsMain[] = {"JOUER", "CHARGER", "OPTIONS", "QUITTER"};
+static int nbOptionsMain = 4;
+
+static const char *optionsLoad[] = {"SAUVEGARDE MANUELLE", "SAUVEGARDE AUTO", "RETOUR"};
+static int nbOptionsLoad = 3;
+
 void dessinerTexteMenu(SDL_Renderer *renderer, TTF_Font *font, const char *texte, int y, int selected) {
     SDL_Color colorTexte = selected ? BLANC : NOIR;
     SDL_Surface *surface = TTF_RenderText_Solid(font, texte, colorTexte);
@@ -36,7 +38,6 @@ void dessinerTexteMenu(SDL_Renderer *renderer, TTF_Font *font, const char *texte
     SDL_DestroyTexture(texture);
 }
 
-// Fonction pour la croix de selection
 void dessinerCroix(SDL_Renderer *renderer, int x, int y) {
     SDL_SetRenderDrawColor(renderer, NOIR.r, NOIR.g, NOIR.b, 255);
     SDL_Rect p1 = {x+2, y, 2, 6};   SDL_RenderFillRect(renderer, &p1);
@@ -46,6 +47,7 @@ void dessinerCroix(SDL_Renderer *renderer, int x, int y) {
 
 void InitMenu(SDL_Renderer *renderer) {
     selection = 0;
+    isLoadSubMenu = 0; 
     
     SDL_Surface *surf = SDL_LoadBMP("assets/menu.bmp");
     if (surf) {
@@ -57,45 +59,72 @@ void InitMenu(SDL_Renderer *renderer) {
 }
 
 int UpdateMenu(SDL_Event *event) {
+    int currentNbOptions = isLoadSubMenu ? nbOptionsLoad : nbOptionsMain;
+
     if (event->type == SDL_KEYDOWN) {
         switch (event->key.keysym.sym) {
             case SDLK_UP:
                 selection--;
-                if (selection < 0) selection = nbOptions - 1;
+                if (selection < 0) selection = currentNbOptions - 1;
                 break;
             case SDLK_DOWN:
                 selection++;
-                if (selection >= nbOptions) selection = 0;
+                if (selection >= currentNbOptions) selection = 0;
+                break;
+            case SDLK_ESCAPE: 
+                if (isLoadSubMenu) {
+                    isLoadSubMenu = 0;
+                    selection = 1; 
+                }
                 break;
             case SDLK_RETURN:
-                if (selection == 0) return 1; // Lancer JEU
-                if (selection == 1) return 2;
-                if (selection == 2) return 3; // QUITTER
+            case SDLK_KP_ENTER:
+                if (!isLoadSubMenu) { // MENU PRINCIPAL 
+                    if (selection == 0) return 1; 
+                    if (selection == 1) {         
+                        isLoadSubMenu = 1;
+                        selection = 0;
+                        return 0; 
+                    }
+                    if (selection == 2) return 2; 
+                    if (selection == 3) return 3; 
+                } else {              // SOUS-MENU CHARGER 
+                    if (selection == 0) { 
+                        isLoadSubMenu = 0; selection = 1;
+                        return 4; 
+                    }
+                    if (selection == 1) { 
+                        isLoadSubMenu = 0; selection = 1;
+                        return 5; 
+                    }
+                    if (selection == 2) { 
+                        isLoadSubMenu = 0; selection = 1; 
+                        return 0;
+                    }
+                }
                 break;
         }
     }
-    return 0; // Rien ne change
+    return 0; 
 }
 
 void DrawMenu(SDL_Renderer *renderer, TTF_Font *fontTitre, TTF_Font *fontOptions) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
+    if (bgMenuTexture) SDL_RenderCopy(renderer, bgMenuTexture, NULL, NULL);
 
-    if (bgMenuTexture) {
-        SDL_RenderCopy(renderer, bgMenuTexture, NULL, NULL);
-    }
+    int currentNbOptions = isLoadSubMenu ? nbOptionsLoad : nbOptionsMain;
+    const char **currentOptions = isLoadSubMenu ? optionsLoad : optionsMain;
 
     int startY = 100;
-    for (int i = 0; i < nbOptions; i++) {
+    for (int i = 0; i < currentNbOptions; i++) {
         int itemY = startY + (i * 25);
-        dessinerTexteMenu(renderer, fontOptions, options[i], itemY, (i == selection));
+        dessinerTexteMenu(renderer, fontOptions, currentOptions[i], itemY, (i == selection));
         
         if (i == selection) {
-            // 3. ON CALCULE LA POSITION X DE LA CROIX DYNAMIQUEMENT
             int textW, textH;
-            TTF_SizeText(fontOptions, options[i], &textW, &textH);
-            int croixX = (LOGICAL_WIDTH - textW) / 2 - 15; // 15 pixels à gauche du texte
-            
+            TTF_SizeText(fontOptions, currentOptions[i], &textW, &textH);
+            int croixX = (LOGICAL_WIDTH - textW) / 2 - 15; 
             dessinerCroix(renderer, croixX, itemY + 2);
         }
     }

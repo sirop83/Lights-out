@@ -16,6 +16,15 @@ Plongez dans le cauchemar d'un enfant. La maison a changé et l'obscurité est o
 
 ---
 
+### 💾 Système de Sauvegarde (Auto-save)
+
+Le jeu intègre un système de sauvegarde complet pour ne jamais perdre votre progression :
+* **Sauvegarde Automatique :** Votre partie est automatiquement sauvegardée si vous quittez le jeu brutalement (croix rouge de la fenêtre) ou si vous retournez au menu principal via le menu Pause.
+* **Sauvegarde Manuelle :** Vous pouvez sauvegarder à tout moment en appuyant sur `ECHAP` puis en sélectionnant `SAUVEGARDER`.
+* **Chargement :** Au lancement du jeu, sélectionnez simplement **CHARGER** dans le menu principal pour reprendre exactement là où vous vous étiez arrêté (position, inventaire, état de la maison).
+
+---
+
 ## 🛠️ Fonctionnalités Techniques
 
 Ce projet a été construit de zéro (sans moteur de jeu préexistant comme Unity ou Godot) et met en œuvre plusieurs concepts algorithmiques :

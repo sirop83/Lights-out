@@ -70,6 +70,9 @@ void DrawTexte(char *texteAffiche, SDL_Renderer *renderer,TTF_Font *font, int x,
 void DrawInteractions(SDL_Renderer *renderer, SDL_Surface *sText);
 void DrawTuiles(float x, float y, int indexTuile, SDL_Renderer *renderer, int luminosite);
 
+void SauvegarderPartie(int isAuto);
+int ChargerPartie(int isAuto);
+
 int IsTuileSpecial(int index);
 
 void TrouveCoordonnees(int *nvx, int *nvy, int indexObjet, int CurrLvl);

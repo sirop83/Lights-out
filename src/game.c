@@ -10,6 +10,7 @@
 #include "options.h"
 #include <stdio.h>
 #include <math.h>
+#include "save.h"
 
 // #define VOLUME_MUSIQUE 32
 // #define VOLUME_BRUITAGES 32
@@ -4183,4 +4184,119 @@ void ResetGame(void) {
     papaReveil = 0;
     affichePapaReveil = 0;
     penduleEnCours = 0; 
+}
+
+void SauvegarderPartie(int isAuto) {
+    SaveData data;
+    data.currentLevel = currentLevel;
+    data.playerX = player.x;
+    data.playerY = player.y;
+    data.playerDir = playerDir;
+    data.isPlayerMoving = isPlayerMoving;
+    data.max_objets = max_objets;
+    data.hasDoudou = hasDoudou;
+    data.has_water = has_water;
+    data.has_drawing = has_drawing;
+    data.has_truc_vert = has_truc_vert;
+    data.has_spider = has_spider;
+    data.has_pain = has_pain;
+    data.has_heart = has_heart;
+    data.has_eye = has_eye;
+    data.has_os = has_os;
+    data.has_coeur_rouge = has_coeur_rouge;
+    data.has_soupe = has_soupe;
+    data.has_pain_chagrin = has_pain_chagrin;
+    data.whichTableauPiece = whichTableauPiece;
+    data.statue_has_water = statue_has_water;
+    data.statue_has_drawing = statue_has_drawing;
+    data.hasTelecommande = hasTelecommande;
+    data.teleOn = teleOn;
+    data.papaReveil = papaReveil;
+    data.forceSleep = forceSleep;
+    data.chaudron_has_truc_vert = chaudron_has_truc_vert;
+    data.chaudron_has_spider = chaudron_has_spider;
+    data.chaudron_has_pain = chaudron_has_pain;
+    data.chaudron_has_heart = chaudron_has_heart;
+    data.chaudron_has_eye = chaudron_has_eye;
+    data.chaudron_has_os = chaudron_has_os;
+    data.chaudron_has_coeur_rouge = chaudron_has_coeur_rouge;
+    data.plat_pret_a_servir = plat_pret_a_servir;
+    data.bouche_has_soupe = bouche_has_soupe;
+    data.bouche_has_pain = bouche_has_pain;
+    data.cpt_piece_tableau = cpt_piece_tableau;
+
+    // Copie de toutes les cases de la map modifiées
+    for (int l = 0; l < NB_LEVELS; l++) {
+        for (int y = 0; y < MAP_HEIGHT; y++) {
+            for (int x = 0; x < MAP_WIDTH; x++) {
+                data.maps[l][y][x] = maps[l][y][x];
+            }
+        }
+    }
+    if (isAuto) {
+        SaveGame("savegame_auto.bin", data);
+    } else {
+        SaveGame("savegame_manuel.bin", data);
+    }
+}
+
+int ChargerPartie(int isAuto) {
+    SaveData data;
+    int success = 0;
+
+    if (isAuto) success = LoadGame("savegame_auto.bin", &data);
+    else success = LoadGame("savegame_manuel.bin", &data);
+    
+    if (success) {
+        currentLevel = data.currentLevel;
+        player.x = data.playerX;
+        player.y = data.playerY;
+        playerDir = data.playerDir;
+        isPlayerMoving = data.isPlayerMoving;
+        max_objets = data.max_objets;
+        hasDoudou = data.hasDoudou;
+        has_water = data.has_water;
+        has_drawing = data.has_drawing;
+        has_truc_vert = data.has_truc_vert;
+        has_spider = data.has_spider;
+        has_pain = data.has_pain;
+        has_heart = data.has_heart;
+        has_eye = data.has_eye;
+        has_os = data.has_os;
+        has_coeur_rouge = data.has_coeur_rouge;
+        has_soupe = data.has_soupe;
+        has_pain_chagrin = data.has_pain_chagrin;
+        whichTableauPiece = data.whichTableauPiece;
+        statue_has_water = data.statue_has_water;
+        statue_has_drawing = data.statue_has_drawing;
+        hasTelecommande = data.hasTelecommande;
+        teleOn = data.teleOn;
+        papaReveil = data.papaReveil;
+        forceSleep = data.forceSleep;
+        chaudron_has_truc_vert = data.chaudron_has_truc_vert;
+        chaudron_has_spider = data.chaudron_has_spider;
+        chaudron_has_pain = data.chaudron_has_pain;
+        chaudron_has_heart = data.chaudron_has_heart;
+        chaudron_has_eye = data.chaudron_has_eye;
+        chaudron_has_os = data.chaudron_has_os;
+        chaudron_has_coeur_rouge = data.chaudron_has_coeur_rouge;
+        plat_pret_a_servir = data.plat_pret_a_servir;
+        bouche_has_soupe = data.bouche_has_soupe;
+        bouche_has_pain = data.bouche_has_pain;
+        cpt_piece_tableau = data.cpt_piece_tableau;
+        dialogueStep = 0;         
+        dialogueStep_sortie1 = 0;   
+        dialogue_entree_labyrinthe = 0;
+
+        // Restaure la map
+        for (int l = 0; l < NB_LEVELS; l++) {
+            for (int y = 0; y < MAP_HEIGHT; y++) {
+                for (int x = 0; x < MAP_WIDTH; x++) {
+                    maps[l][y][x] = data.maps[l][y][x];
+                }
+            }
+        }
+        return 1;
+    }
+    return 0;
 }
