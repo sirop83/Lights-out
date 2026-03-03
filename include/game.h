@@ -53,6 +53,16 @@ extern int livreOuvert;
 // -- VARIABLES AUTRE PART --
 extern SDL_Renderer* renderer;
 extern TTF_Font* font;
+// Structure pour les projectiles de la salle à manger
+#define MAX_PROJECTILES 50
+typedef struct {
+    float x, y;
+    float vx;       // Vitesse horizontale (-1 = gauche à droite, 1 = droite à gauche)
+    int active;     // 1 si actif, 0 sinon
+    int type;       // 0 = assiette, 1 = couteau
+} Projectile;
+
+extern Projectile projectiles[MAX_PROJECTILES];
 
 extern float FANTOME_SPEED;
 
@@ -92,7 +102,12 @@ void GestionMemoSalon();
 void CleanGame(); // Nettoyage de tous les pointeurs
 
 void ResetGame(void);
-
+// Fonctions pour les projectiles
+void InitProjectiles(void);
+void UpdateProjectiles(void);
+void DrawProjectiles(SDL_Renderer *renderer);
+void SpawnProjectile(void);
+int CheckProjectileCollision(float px, float py, int pw, int ph);
 extern int currentLevel; 
 
 #endif

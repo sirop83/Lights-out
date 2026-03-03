@@ -10,7 +10,7 @@ Mix_Music *chargement_son_maison_reveil();
 Mix_Music *chargement_son_maison_reveil_interieur();
 
 Mix_Chunk *chargement_son_pas();
-Mix_Chunk *chargement_son_transition();
+Mix_Chunk *chargement_son_projectile_hit();
 Mix_Chunk *chargement_son_item_pick_up();
 Mix_Chunk *chargement_son_door_open();
 Mix_Chunk *chargement_son_door_close();

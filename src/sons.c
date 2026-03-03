@@ -52,12 +52,12 @@ Mix_Chunk *chargement_son_pas(){
     return sonPas;
 }
 
-Mix_Chunk *chargement_son_transition(){
-	Mix_Chunk *sonTransition = Mix_LoadWAV("assets/sound/transition-whoosh.wav");
+Mix_Chunk *chargement_son_projectile_hit(){
+	Mix_Chunk *sonProjectile = Mix_LoadWAV("assets/sound/transition-whoosh.wav");
 
-	if (!sonTransition) printf("Erreur chargement WAV: %s\n", Mix_GetError());
+	if (!sonProjectile) printf("Erreur chargement WAV: %s\n", Mix_GetError());
 
-	return sonTransition;
+	return sonProjectile;
 }
 
 Mix_Chunk *chargement_son_screamer(){
