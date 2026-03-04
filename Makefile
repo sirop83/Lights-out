@@ -40,10 +40,10 @@ LDFLAGS_WIN = -Lmingw_dev/lib -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_mixe
 
 windows:
 	@echo "Compilation pour Windows en cours..."
-	mkdir -p executable
-	$(CC_WIN) $(CFLAGS_WIN) src/*.c -o executable/Light_out.exe $(LDFLAGS_WIN)
-	@echo "Terminé ! Le fichier est 'executable/Light_out.exe'."
+	mkdir -p Lights_out_Windows
+	$(CC_WIN) $(CFLAGS_WIN) src/*.c -o Lights_out_Windows/Lights_out.exe $(LDFLAGS_WIN)
+	@echo "Terminé ! Le fichier est 'Lights_out_Windows/Lights_out.exe'."
 
 clean:
-	rm -rf bin/game executable/Light_out.exe bin_win/
+	rm -rf bin/game Lights_out_Windows/Lights_out.exe bin_win/
 	@echo "Fichiers compilés supprimés."

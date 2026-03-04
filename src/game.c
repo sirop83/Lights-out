@@ -1383,14 +1383,14 @@ void ManageMusic()
 void UpdateGame(void)
 {
     const Uint8 *state = SDL_GetKeyboardState(NULL);
-     // bouche_has_pain = 1;
-     // bouche_has_soupe = 1;
+    //  bouche_has_pain = 1;
+    //  bouche_has_soupe = 1;
     // hasTelecommande = 1;
     // cpt_piece_tableau = 4;
-     // hasDoudou = 1;
+    //  hasDoudou = 1;
     // statue_has_water=1;
     // statue_has_drawing=1;
-    // currentLevel = 11;
+    // //currentLevel = 11;
 
     if (chaudron_anim == 1)
     {
@@ -5177,7 +5177,7 @@ int ChargerPartie(int isAuto) {
             }
         }
     }
-        return 1;
+        return success;
     }
 void DrawProjectiles(SDL_Renderer *renderer) {
     if (currentLevel != 4 || dialogue_chambre_parents >= 1) return;
