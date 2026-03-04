@@ -2473,7 +2473,6 @@ void UpdateGame(void)
                 {
                     if (sonOpenDoor)
                         Mix_PlayChannel(-1, sonOpenDoor, 0);
-                    SDL_Delay(250);
                     maps[0][0][16] = 16;
                     maps[0][0][17] = 17;
                     maps[0][1][16] = 18;
@@ -2484,7 +2483,6 @@ void UpdateGame(void)
                 {
                     if (sonCloseDoor)
                         Mix_PlayChannel(-1, sonCloseDoor, 0);
-                    SDL_Delay(250);
                     maps[0][0][16] = 8;
                     maps[0][0][17] = 9;
                     maps[0][1][16] = 10;
@@ -2494,7 +2492,6 @@ void UpdateGame(void)
                 {
                     if (sonOpenDoor)
                         Mix_PlayChannel(-1, sonOpenDoor, 0);
-                    SDL_Delay(250);
                     maps[0][0][16] = 12;
                     maps[0][0][17] = 13;
                     maps[0][1][16] = 14;
@@ -2800,7 +2797,6 @@ void UpdateGame(void)
                 {
                     if (sonPickUp)
                         Mix_PlayChannel(-1, sonPickUp, 0);
-                    SDL_Delay(250);
                     maps[0][0][16] = 12;
                     maps[0][0][17] = 13;
                     maps[0][1][16] = 14;
