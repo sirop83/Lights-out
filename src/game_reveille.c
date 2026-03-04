@@ -366,11 +366,11 @@ void ManageMusicReveille()
             }
         }
         // Si on entre ou qu'on est dans la maison
-        // else if (newZoneState == 0) {
-        //     if (MusicInterior_Reveil_Maison) {
-        //         Mix_FadeInMusic(MusicInterior_Reveil_Maison, -1, 1000); 
-        //     }
-        // }
+        else if (newZoneState == 0) {
+            if (MusicInterior_Reveil_Maison) {
+                Mix_FadeInMusic(MusicInterior_Reveil_Maison, -1, 1000); 
+            }
+        }
         
         currentZoneStateReveil = newZoneState; 
     }

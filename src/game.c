@@ -3315,7 +3315,6 @@ void UpdateGame(void)
                 maps[11][porteFinY][porteFinX]     = 330;
                 maps[11][porteFinY][porteFinX + 1] = 331;
                 //open_door = 1;
-                SDL_Delay (1000);
                 dialogue_maman = 1;
                 maps[11][mamanY][mamanX] = 439;
                 menu_fin = 1;
@@ -3346,7 +3345,6 @@ void UpdateGame(void)
 
                 maps[11][mamanY ][mamanX]    = 440;
                 maps[11][mamanY -1][mamanX]  = 441;
-                SDL_Delay (1000);
                 dialogue_maman_2 = 1;
                 interraction_maman_fin =0;
             }
