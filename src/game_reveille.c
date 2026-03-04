@@ -836,6 +836,11 @@ int IsWallReveille(float x, float y)
         return 1;
     }
 
+    if((type_pattern>=276 && type_pattern<=282) || (type == 284 || type == 286)){
+        if(isTopCorner)return 0;
+        return 1;
+    }
+
     return 0;
 }
 
@@ -1120,7 +1125,7 @@ static inline int IsTuileDessusReveille(int index) {
          || index == 579 || index == 623 || index == 308 || index == 309 
          || index == 310 || index == 311 || index == 304 || index == 305 
          || index == 627 || index == 628 || index == 639 || index == 640 
-         || index == 653 || index == 654);
+         || index == 653 || index == 654 || index == 283 || index == 285);
 }
 
 void DrawGameReveille(SDL_Renderer *renderer, TTF_Font *font, TTF_Font *fontMini)
