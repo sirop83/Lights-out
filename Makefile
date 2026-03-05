@@ -14,7 +14,7 @@ SRCS = $(wildcard $(SRC_DIR)/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 TARGET = $(BIN_DIR)/game
 
-.PHONY: all clean run directories
+.PHONY: all clean run directories windows
 
 all: directories $(TARGET)
 
@@ -28,22 +28,31 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 directories:
 	mkdir -p $(OBJ_DIR) $(BIN_DIR)
 
-clean:
-	rm -rf $(OBJ_DIR) $(BIN_DIR)
-
 run: all
 	./$(TARGET)
 
+# ==========================================
+# --- CONFIGURATION WINDOWS ---
+# ==========================================
 CC_WIN = x86_64-w64-mingw32-gcc
+WINDRES_WIN = x86_64-w64-mingw32-windres
+RES = ressource.res
+
 CFLAGS_WIN = -Wall -Wextra -std=c99 -Iinclude -Imingw_dev/include -Imingw_dev/include/SDL2
 LDFLAGS_WIN = -Lmingw_dev/lib -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_mixer -lm -mwindows
 
-windows:
+
+$(RES): ressource.rc
+	$(WINDRES_WIN) $< -O coff -o $@
+
+
+windows: $(RES)
 	@echo "Compilation pour Windows en cours..."
-	mkdir -p Lights_out_Windows
-	$(CC_WIN) $(CFLAGS_WIN) src/*.c -o Lights_out_Windows/Lights_out.exe $(LDFLAGS_WIN)
-	@echo "Terminé ! Le fichier est 'Lights_out_Windows/Lights_out.exe'."
+	mkdir -p Lights_out_Windows_dev
+	$(CC_WIN) $(CFLAGS_WIN) src/*.c $(RES) -o Lights_out_Windows_dev/Lights_out.exe $(LDFLAGS_WIN)
+	@echo "Terminé ! Le fichier est 'Lights_out_Windows_dev/Lights_out.exe'."
+
 
 clean:
-	rm -rf bin/game Lights_out_Windows/Lights_out.exe bin_win/
-	@echo "Fichiers compilés supprimés."
+	rm -rf $(OBJ_DIR) $(BIN_DIR) Lights_out_Windows_dev/Lights_out.exe bin_win/ $(RES)
+	@echo "Fichiers compilés et ressources supprimés."

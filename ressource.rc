@@ -1,0 +1,24 @@
+1 ICON "assets/icon.ico"
+
+1 VERSIONINFO
+FILEVERSION     0,1,1,0
+PRODUCTVERSION  0,1,1,0
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040C04E4"
+    BEGIN
+      VALUE "CompanyName", "ISEN Project"
+      VALUE "FileDescription", "Lights Out - Alpha"
+      VALUE "FileVersion", "0.1.1"
+      VALUE "InternalName", "lights_out"
+      VALUE "OriginalFilename", "lights_out.exe"
+      VALUE "ProductName", "Lights Out"
+      VALUE "ProductVersion", "0.1.1"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x40C, 1252
+  END
+END
