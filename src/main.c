@@ -317,7 +317,17 @@ int main(int argc, char* argv[]) {
                     
                     if (ChargerPartie(save_type_to_load)) {
                         if (fin_jeu == 1) {
+                           
+                            float saveX = player.x;
+                            float saveY = player.y;
+                            
+                        
                             InitGameStepByStepReveille(renderer); 
+                            
+                            
+                            player.x = saveX;
+                            player.y = saveY;
+                            
                             etat = ETAT_JEU_REVEILLE;
                         } else {
                             etat = ETAT_JEU; 
